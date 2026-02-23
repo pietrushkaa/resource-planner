@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Planer posiłków</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/minty/bootstrap.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Kalam&display=swap" rel="stylesheet">
+    
+    <style>
+        h1 {
+            font-family: 'Kalam', cursive !important;
+            color: var(--bs-primary) !important;
+            font-size: 47px;
+        }
+        
+        body, label, td, th, input, select, span, small, p, .card-body{
+            color: #312d2aff !important;
+        }
+        
+        body {
+            background-color: #ffffff; 
+            font-family: 'Montserrat', sans-serif !important;
+            background-image: 
+                linear-gradient(rgba(241, 159, 163, 0.15) 40px, transparent 1px),
+                linear-gradient(90deg, rgba(241, 159, 163, 0.15) 40px, transparent 1px);
+    
+                background-size: 100px 100px;
+                background-attachment: fixed;
+        }
+
+        .table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: white;
+        }
+
+        .table thead th {
+            color: var(--bs-secondary) !important;
+            border-bottom: 2px solid var(--bs-secondary) !important;
+        }
+
+        .table td {
+            border-bottom: 1px solid #f1f1f1;
+        }
+    </style>
+</head>
+<body class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h1><b>Planer posiłków</b></h1>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary" style="position: absolute; top: 15px; right: 15px">
+            Powrót do menu
+        </a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="mb-4 text-start">
+        <a href="{{ url_for('zaplanuj_posilek') }}" class="btn btn-primary shadow-sm">
+            <b>Zaplanuj posiłek!</b>
+        </a>
+    </div>
+
+    <div class="table-section">
+        <table class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th class="text-start">Przepis</th>
+                    <th>Liczba osób</th>
+                    <th>Data posiłku</th>
+                    <th>Ugotuj</th>
+                    <th>Usuń</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in posilki %}
+                <tr>
+                    <td class="text-start align-middle" style=" color: var(--bs-primary) !important;"><b>{{ item.przepis.nazwa }}</b></td>
+                    <td class="align-middle">{{ item.liczba_osób }}</td>
+                    <td class="align-middle">{{ item.data_posiłku }}</td>
+                    <td class="align-middle">
+                        <form action="{{ url_for('zmien_status_ugotowane', id_posilku=item.id_posiłku) }}" method="POST" class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary btn-sm px-3" style="font-weight: bold;">
+                                Ugotuj!
+                            </button>
+                        </form>
+                    </td>
+                    <td class="align-middle">
+                        <form action="{{ url_for('usun_z_planow', id_posilku=item.id_posiłku) }}" method="POST" class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-secondary btn-sm" style="font-weight: bold; font-size: 20px; padding: 0px 8px">
+                                &times;
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organizer Kuchenny</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/minty/bootstrap.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Kalam&display=swap" rel="stylesheet">
+    
+    <style>
+        h1 {
+            font-family: 'Kalam', cursive !important;
+            color: var(--bs-primary) !important;
+            font-size: 47px;
+        }
+        
+        body, label, td, input, select, span, small, p, .card-body{
+            color: #312d2aff !important;
+        }
+        
+        body {
+            background-color: #ffffff; 
+            font-family: 'Montserrat', sans-serif !important;
+            background-image: 
+                linear-gradient(rgba(241, 159, 163, 0.15) 40px, transparent 1px),
+                linear-gradient(90deg, rgba(241, 159, 163, 0.15) 40px, transparent 1px);
+    
+                background-size: 100px 100px;
+                background-attachment: fixed;
+        }
+    </style>
+</head>
+<body class="container py-4 d-flex flex-column align-items-center">
+
+    <header class="text-center mb-4">
+        <h1><b>Planer kuchenny</b></h1>
+        <p style="color:var(--bs-secondary) !important; font-size:15px"><b>Zarządzaj zapasami i planuj posiłki!</b></p>
+    </header>
+        <main class="d-flex flex-column align-items-center">
+            <a href="{{ url_for('wyswietl_spizarnie') }}" 
+                class="btn btn-primary d-flex flex-column align-items-center justify-content-center p-5 w-50 mb-3" style="max-height:90px; min-width:350px">
+                <h3 style="color: white !important; font-size:26px">
+                    &bull; Spiżarnia &bull;
+                </h3>
+            </a>
+            <a href="{{ url_for('wyswietl_przepisy') }}" 
+                class="btn btn-secondary d-flex flex-column align-items-center justify-content-center p-5 w-50 mb-3" style="max-height:90px; min-width:350px">
+                <h3 style="color: white !important; font-size:26px">
+                    &bull; Przepisy &bull;
+                </h3>
+            </a>
+            <a href="{{ url_for('wyswietl_zakupy') }}" 
+                class="btn btn-primary d-flex flex-column align-items-center justify-content-center p-5 w-50 mb-3" style="max-height:90px; min-width:350px">
+                <h3 style="color: white !important; font-size:26px">
+                    &bull; Lista zakupów &bull;
+                </h3>
+            </a>
+            <a href="{{ url_for('wyswietl_posilki') }}" 
+                class="btn btn-secondary d-flex flex-column align-items-center justify-content-center p-5 w-50" style="max-height:90px; min-width:350px">
+                <h3 style="color: white !important; font-size:26px">
+                    &bull; Planer posiłków &bull;
+                </h3>
+            </a>
+        </main>
+</body>
+</html>

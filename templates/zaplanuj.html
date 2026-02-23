@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Zaplanuj Posiłek</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/minty/bootstrap.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Kalam&display=swap" rel="stylesheet">
+    
+    <style>
+        h1 {
+            font-family: 'Kalam', cursive !important;
+            color: var(--bs-primary) !important;
+            font-size: 47px;
+            font-weight: bold;
+        }
+        
+        body, label, td, input, select, span, small, p, .card-body, summary {
+            color: #312d2aff !important;
+            font-family: 'Montserrat', sans-serif !important;
+        }
+
+        body {
+            background-color: #ffffff; 
+            background-image: 
+                linear-gradient(rgba(241, 159, 163, 0.15) 40px, transparent 1px),
+                linear-gradient(90deg, rgba(241, 159, 163, 0.15) 40px, transparent 1px);
+            background-size: 100px 100px;
+            background-attachment: fixed;
+        }
+
+        .settings-card {
+            background-color: white;
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: white;
+        }
+
+        .table thead th {
+            color: var(--bs-secondary) !important;
+            border-bottom: 2px solid var(--bs-secondary) !important;
+            font-weight: bold;
+        }
+
+        .table td {
+            border-bottom: 1px solid #f1f1f1;
+            padding: 0 !important; 
+        }
+
+        summary {
+            padding: 12px 8px;
+            cursor: pointer;
+            list-style: none;
+        }
+        
+
+        .recipe-content {
+            padding: 20px;
+            background-color: #fcfdfd;
+            border-top: 1px dashed var(--bs-secondary);
+        }
+        
+        .radio-selection {
+            transform: scale(1.4);
+            cursor: pointer;
+            accent-color: var(--bs-primary);
+        }
+    </style>
+</head>
+<body class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h1><b>Zaplanuj posiłek</b></h1>
+        <a href="{{ url_for('wyswietl_posilki') }}" class="btn btn-secondary" style="position: absolute; top: 15px; right: 15px">
+            Wróć
+        </a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <div class="settings-card shadow-sm">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Liczba osób:</label>
+                    <input type="number" name="liczba_osob" class="form-control" min="1" value="1" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Data (opcjonalnie):</label>
+                    <input type="date" name="data_posilku" class="form-control">
+                </div>
+                <div class="col-md-5 text-end">
+                    <button type="submit" class="btn btn-primary w-100 py-2">
+                        <b>ZAPLANUJ PRZEPIS!</b>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-4 d-flex align-items-center flex-wrap gap-2">
+            <strong style="color: var(--bs-primary) !important">Filtruj wg typu dania:</strong>
+            <div class="btn-group shadow-sm">
+                <a href="{{ url_for('zaplanuj_posilek') }}" 
+                   class="btn btn-sm {{ 'btn-primary' if not wybrany_typ else 'btn-outline-primary' }}">Wszystkie</a>
+                {% for t in typy_dan %}
+                    <a href="{{ url_for('zaplanuj_posilek', typ=t.nazwa) }}" 
+                       class="btn btn-sm {{ 'btn-primary' if wybrany_typ == t.nazwa else 'btn-outline-primary' }}">
+                       {{ t.nazwa }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        <p><small>Kliknij w nazwę dania, żeby zobaczyć składniki i sposób przygotowania!</small></p>
+
+        <div class="table-section shadow-sm">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 45%;">Przepis</th>
+                        <th style="width: 20%; text-align: center;">Czas przygotowania</th>
+                        <th style="width: 20%; text-align: center;">kcal/osoba</th>
+                        <th style="width: 15%; text-align: center;">Wybór</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in przepisy %}
+                    <tr>
+                        <td colspan="4">
+                            <details>
+                                <summary style="display: flex; align-items: center;">
+                                    
+                                    <div style="width: 45%; font-weight: bold; color: var(--bs-primary) !important;">
+                                        <span style="font-size: 0.7em; color: var(--bs-primary) !important; margin-right: 8px;">&#9654;&#xFE0E;</span>
+                                        {{ item.nazwa }}
+                                    </div>
+                                    
+                                    <div style="width: 20%; text-align: center;">{{ item.czas_przygotowania }} min</div>
+                                    
+                                    <div style="width: 20%; text-align: center;">{{ item.kcal_na_osobę or '-' }}</div>
+                                    
+                                    <div style="width: 15%; text-align: center;">
+                                        <input type="radio" name="wybrany_przepis" value="{{ item.id_przepisu }}" required class="radio-selection">
+                                    </div>
+
+                                </summary>
+
+                                <div class="recipe-content">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <h6 class="text-primary"><b>Składniki (na {{ item.liczba_porcji }} os.):</b></h6>
+                                            <ul>
+                                            {% for składnik in item.składniki %}
+                                                <li> {{ składnik.produkt.nazwa }}: {{ składnik.potrzebna_ilość | round | int }} {{ składnik.produkt.jednostka.nazwa }} </li>
+                                            {% endfor %}
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-7 border-start">
+                                            <h6 class="text-primary"><b>Sposób przygotowania:</b></h6>
+                                            <p style="white-space: pre-wrap;">{{ item.opis }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

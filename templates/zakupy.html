@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <title>Lista zakupów</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/minty/bootstrap.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Kalam&display=swap" rel="stylesheet">
+    
+    <style>
+        h1 {
+            font-family: 'Kalam', cursive !important;
+            color: var(--bs-primary) !important;
+            font-size: 47px;
+        }
+        
+        body, label, td, th, input, select, span, small, p, .card-body {
+            color: #312d2aff !important;
+        }
+        
+        body {
+            background-color: #ffffff; 
+            font-family: 'Montserrat', sans-serif !important;
+            background-image: 
+                linear-gradient(rgba(241, 159, 163, 0.15) 40px, transparent 1px),
+                linear-gradient(90deg, rgba(241, 159, 163, 0.15) 40px, transparent 1px);
+    
+                background-size: 100px 100px;
+                background-attachment: fixed;
+        }
+
+        .table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: white;
+        }
+
+        .table thead th {
+            color: var(--bs-secondary) !important;
+            border-bottom: 2px solid var(--bs-secondary) !important;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .table td {
+            border-bottom: 1px solid #f1f1f1;
+            vertical-align: middle;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-radius: 15px;
+        }
+
+        .card-header {
+            border-radius: 15px 15px 0 0 !important;
+        }
+    </style>
+</head>
+<body class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h1><b>Lista zakupów</b></h1>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary" style="position: absolute; top: 15px; right: 15px">
+            Powrót do menu
+        </a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white"><b>Dodaj do listy zakupów</b></div>
+        <div class="card-body">
+            <form method="POST" class="row g-3 align-items-end">
+                <div class="col-md-5">
+                    <label class="form-label">Produkt:</label>
+                    <input class="form-control" list="lista-prod" name="nazwa_produktu" placeholder="Wpisz nazwę..." autocomplete="off" required>
+                    <datalist id="lista-prod">
+                        {% for p in lista_produktow %} 
+                            <option value="{{ p.nazwa }}">{{ p.nazwa }} ({{ p.jednostka.nazwa }})</option>
+                        {% endfor %}
+                    </datalist>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Ilość:</label>
+                    <input type="number" name="ilosc" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary w-100"><b>Dodaj</b></button>
+                </div>
+            </form>
+            <div class="mt-3">
+                <small>Nie ma produktu w bazie? 
+                    <a href="#" class="text-secondary" data-bs-toggle="modal" data-bs-target="#modalNowy">Dodaj nowy rodzaj produktu</a>
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-section">
+        <table class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th class="text-start">Produkt</th>
+                    <th>Potrzebna ilość</th>
+                    <th>Usuń</th>
+                    <th>Już kupione</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in zakupy %}
+                <tr>
+                    <td class="text-start">{{ item.produkt.nazwa }}</td>
+                    <td>{{ item.potrzebna_ilość | int | round }} {{ item.produkt.jednostka.nazwa }}</td>
+                    <td>
+                        <form action="{{ url_for('usun_z_zakupow', id_zakupu=item.id_zakupu) }}" method="POST">
+                            <button type="submit" class="btn btn-secondary btn-sm" style="font-weight: bold; font-size: 20px; padding: 0px 8px; background-color: #f19fa3; border: none;">
+                                &times;
+                            </button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('zmien_status_kupione', id_zakupu=item.id_zakupu) }}" method="POST">
+                            <button type="submit" class="btn btn-primary btn-sm" style="font-weight: bold; font-size: 16px; padding: 2px 10px;">
+                                &#10003;
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="modalNowy" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nowy produkt w bazie</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{ url_for('dodaj_definicje_produktu_zakupy') }}" method="POST">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Nazwa:</label>
+                            <input type="text" name="nazwa" class="form-control" required>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label class="form-label">Kcal/100:</label>
+                                <input type="number" name="kcal" class="form-control">
+                            </div>
+                            <div class="col">
+                                <label class="form-label">Ilość ref:</label>
+                                <input type="number" name="ilosc_ref" class="form-control" value="100">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Jednostka:</label>
+                            <select name="id_jednostki" class="form-select">
+                                {% for j in jednostki %} 
+                                    <option value="{{ j.id_jednostki }}">{{ j.nazwa }}</option> 
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary w-100">Zapisz produkt</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
