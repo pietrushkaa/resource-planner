@@ -1,42 +1,42 @@
-# Aplikacja webowa Planer Kuchenny
-## Opis projektu
-Ta aplikacja webowa została stworzona, żeby pomóc
-w codzienym zarządzaniu kuchnią domową. Składa się
-z czterech głównych modułów, które współpracują ze sobą:
-- Spiżarnia - umożliwia monitorowanie ilości produktów 
-  posiadanych w kuchni i dodawanie nowych rodzajów produktów
-- Przepisy - lista dostępnych przepisów z możliwością dodawania
-  nowych
-- Lista Zakupów - samoistnie generowana lista na podstawie 
-  zaplanowanych posiłków z możliwością samodzielnego dodania 
-  dodatkowych produktów
-- Planer Posiłków - umożliwia planowanie jadłospisu na
-  nadchodzące dni
-## Użyte technologie
-Projekt został utworzony przy pomocy:
+# Kitchen Planner web application
+## Project description
+This web application was created to help
+in the daily management of a home kitchen. The app's content is 
+written in Polish. It consists of four main modules that work together:
+- "Spiżarnia" = Pantry - allows monitoring the amount of products 
+  owned in the kitchen and adding new types of products
+- "Przepisy" = Recipes - list of available recipes with the possibility of adding
+  new ones
+- "Lista zakupów" = Shopping List - self-generated list based on 
+  planned meals with the possibility of manually adding 
+  additional products
+- "Planer posiłków" = Meal Planner - allows planning the menu for
+  the upcoming days
+## Technologies used
+The project was created using:
 - Python 3.12.3
 - Flask 3.1.2
 - Flask-SQLAlchemy 3.1.1
 - Jinja2 3.1.6
 - PostgreSQL 16.11
 - HTML5, CSS3
-- Bootstrap 5 (Motyw Bootswatch - Minty)
+- Bootstrap 5 (Bootswatch Theme - Minty)
 - Google Fonts (Montserrat & Kalam)
-## Sposób uruchomienia (Linux)
-Żeby uruchomić aplikację na swoim komputerze:
-1. Stwórz własne środowisko wirtualne, wpisując w terminalu:
+## How to run (Linux)
+To run the application on your computer:
+1. Create your own virtual environment by typing in the terminal:
    python -m venv venv
-2. Aktywuj środowisko:
+2. Activate the environment:
    source venv/bin/activate
-3. Zainstaluj wszystkie potrzebne biblioteki:
+3. Install all needed libraries:
    pip install -r requirements.txt
-4. Skonfiguruj bazę danych:
-  - uruchom serwer PostgreSQL i stwórz nową bazę:
+4. Configure the database:
+  - run the PostgreSQL server and create a new database:
     CREATE DATABASE kuchnia_db;
-  - skopiuj plik .env.example:
+  - copy the .env.example file:
     cp .env.example .env
-  - uzupełnij w tym pliku swoją nazwę uzytkownika i hasło
-  - zainicjalizuj schemat bazy danych w PostgreSQL:
-    psql -U TWOJ_UZYTKOWNIK -d kuchnia_db -f sciezka_do_pliku/model_logiczny.sql
-5. Uruchom aplikację:
+  - fill in your username and password in this file
+  - initialize the database schema in PostgreSQL:
+    psql -U YOUR_USERNAME -d kuchnia_db -f path_to_file/model_logiczny.sql
+5. Run the application:
    python app.py
