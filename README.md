@@ -25,18 +25,31 @@ The project was created using:
 ## How to run (Linux)
 To run the application on your computer:
 1. Create your own virtual environment by typing in the terminal:
+   ```
    python -m venv venv
+   ```
 2. Activate the environment:
+   ```
    source venv/bin/activate
+   ```
 3. Install all needed libraries:
+   ``` 
    pip install -r requirements.txt
+   ```
 4. Configure the database:
   - run the PostgreSQL server and create a new database:
-    CREATE DATABASE kuchnia_db;
-  - copy the .env.example file:
-    cp .env.example .env
+    ```CREATE DATABASE kuchnia_db;```
+  - create .env file with the following content:
+      ```
+      DATABASE_URL='postgresql://username:password@localhost:5432/kitchen_db'
+      SECRET_KEY='secret-key-12345'
+      ```
   - fill in your username and password in this file
   - initialize the database schema in PostgreSQL:
+    ```
     psql -U YOUR_USERNAME -d kuchnia_db -f path_to_file/model_logiczny.sql
+    ```
 5. Run the application:
-   python app.py
+    ```
+    python app.py
+    ```
