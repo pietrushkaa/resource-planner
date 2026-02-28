@@ -1,17 +1,54 @@
 # Kitchen Planner web application
 ## Project description
 This web application was created to help
-in the daily management of a home kitchen. The app's content is 
-written in Polish. It consists of four main modules that work together:
-- "Spiżarnia" = Pantry - allows monitoring the amount of products 
-  owned in the kitchen and adding new types of products
-- "Przepisy" = Recipes - list of available recipes with the possibility of adding
-  new ones
-- "Lista zakupów" = Shopping List - self-generated list based on 
-  planned meals with the possibility of manually adding 
-  additional products
-- "Planer posiłków" = Meal Planner - allows planning the menu for
-  the upcoming days
+in the daily management of a home kitchen. It consists of four main modules that work together (Pantry, Recipe Book, Meal Planner, Shopping List). It integrates a PostgreSQL database with advanced algorithms that automate data management, using a Python and Flask backend paired with a simple and aesthetic HTML/CSS interface.
+
+## Modules & Interface preview
+### Main Menu
+- **navigation**: jump between the Pantry, Recipe Book, Meal Planner, and Shopping List
+
+*Interface preview:*
+<img src="screens/index.png" width="90%" alt="">
+
+---
+### Pantry
+- **inventory tracking**: monitor the quantity of all products in your kitchen
+  - sort by name, quantity or priority
+  - add and delete products, change quantity
+- **adding new products**: add new product types with units and caloric values
+
+*Interface preview:*
+<img src="screens/pantry.png" width="90%" alt="">
+
+---
+### Recipe Book
+- **list of recipes**: view and manage your personal collection of recipes with the ability to add or delete
+  - filter by meal type (e.g., Breakfast, Dinner, Snack)
+- **adding new recipes**: add new recipes including list of ingredients and preparation method
+  - features a PostgreSQL algorithm that adds the possibility to automatically calculate total calories per person based on the ingredient list
+
+*Interface preview:*
+<img src="screens/recipes.png" width="90%" alt="">
+
+---
+### Shopping List
+- **automated list**: when you plan a meal, a PostgreSQL algorithm automatically identifies missing ingredients in your pantry and adds them to your shopping list
+- **manual management**: add and delete additional products on your own
+
+*Interface preview:*
+<img src="screens/shoppinglist.png" width="90%" alt="">
+
+---
+### Meal planner
+- **planning meals**: plan meals for upcoming days by selecting a recipe, the number of servings, and (additionally) a specific date
+  - filter by meal type (e.g., Breakfast, Dinner, Snack) for a faster and more convenient planning
+  - once a meal is marked as cooked, a PostgreSQL algorithm verifies ingredient availability and automatically deducts the required quantities from your pantry
+
+*Interface preview of Meal Planner:*
+<img src="screens/mealplanner.png" width="90%" alt="">
+
+*Interface preview of Planning Meals Page:*
+<img src="screens/planyourmeal.png" width="90%" alt="">
 ## Technologies used
 The project was created using:
 - Python 3.12.3
@@ -26,7 +63,7 @@ The project was created using:
 To run the application on your computer:
 1. Create your own virtual environment by typing in the terminal:
    ```
-   python -m venv venv
+   python3 -m venv venv
    ```
 2. Activate the environment:
    ```
@@ -51,5 +88,5 @@ To run the application on your computer:
     ```
 5. Run the application:
     ```
-    python app.py
+    python3 app.py
     ```
