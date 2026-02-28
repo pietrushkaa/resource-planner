@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <title>Lista zakupów</title>
+    <title>Shopping List</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -66,9 +66,9 @@
 <body class="container py-4">
 
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <h1><b>Lista zakupów</b></h1>
+        <h1><b>Shopping List</b></h1>
         <a href="{{ url_for('index') }}" class="btn btn-secondary" style="position: absolute; top: 15px; right: 15px">
-            Powrót do menu
+            Back to Menu
         </a>
     </div>
 
@@ -84,12 +84,12 @@
     {% endwith %}
 
     <div class="card mb-4">
-        <div class="card-header bg-primary text-white"><b>Dodaj do listy zakupów</b></div>
+        <div class="card-header bg-primary text-white"><b>Add to Shopping List</b></div>
         <div class="card-body">
             <form method="POST" class="row g-3 align-items-end">
                 <div class="col-md-5">
-                    <label class="form-label">Produkt:</label>
-                    <input class="form-control" list="lista-prod" name="nazwa_produktu" placeholder="Wpisz nazwę..." autocomplete="off" required>
+                    <label class="form-label">Product:</label>
+                    <input class="form-control" list="lista-prod" name="nazwa_produktu" placeholder="Enter name..." autocomplete="off" required>
                     <datalist id="lista-prod">
                         {% for p in lista_produktow %} 
                             <option value="{{ p.nazwa }}">{{ p.nazwa }} ({{ p.jednostka.nazwa }})</option>
@@ -97,16 +97,16 @@
                     </datalist>
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">Ilość:</label>
+                    <label class="form-label">Quantity:</label>
                     <input type="number" name="ilosc" class="form-control" required>
                 </div>
                 <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary w-100"><b>Dodaj</b></button>
+                    <button type="submit" class="btn btn-primary w-100"><b>Add</b></button>
                 </div>
             </form>
             <div class="mt-3">
-                <small>Nie ma produktu w bazie? 
-                    <a href="#" class="text-secondary" data-bs-toggle="modal" data-bs-target="#modalNowy">Dodaj nowy rodzaj produktu</a>
+                <small>Product doesn't exist? 
+                    <a href="#" class="text-secondary" data-bs-toggle="modal" data-bs-target="#modalNowy">Add new type of product</a>
                 </small>
             </div>
         </div>
@@ -116,10 +116,10 @@
         <table class="table table-hover text-center">
             <thead>
                 <tr>
-                    <th class="text-start">Produkt</th>
-                    <th>Potrzebna ilość</th>
-                    <th>Usuń</th>
-                    <th>Już kupione</th>
+                    <th class="text-start">Product</th>
+                    <th>Needed quantity</th>
+                    <th>Delete</th>
+                    <th>Already bought?</th>
                 </tr>
             </thead>
             <tbody>
@@ -151,27 +151,27 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Nowy produkt w bazie</h5>
+                    <h5 class="modal-title">New product</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ url_for('dodaj_definicje_produktu_zakupy') }}" method="POST">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Nazwa:</label>
+                            <label class="form-label">Name:</label>
                             <input type="text" name="nazwa" class="form-control" required>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
-                                <label class="form-label">Kcal/100:</label>
+                                <label class="form-label">Kcal/ref.:</label>
                                 <input type="number" name="kcal" class="form-control">
                             </div>
                             <div class="col">
-                                <label class="form-label">Ilość ref:</label>
+                                <label class="form-label">Reference quantity:</label>
                                 <input type="number" name="ilosc_ref" class="form-control" value="100">
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Jednostka:</label>
+                            <label class="form-label">Unit:</label>
                             <select name="id_jednostki" class="form-select">
                                 {% for j in jednostki %} 
                                     <option value="{{ j.id_jednostki }}">{{ j.nazwa }}</option> 
@@ -180,7 +180,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary w-100">Zapisz produkt</button>
+                        <button type="submit" class="btn btn-primary w-100">Save</button>
                     </div>
                 </form>
             </div>

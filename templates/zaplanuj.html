@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <title>Zaplanuj Posiłek</title>
+    <title>Plan Your Meal</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -84,9 +84,9 @@
 <body class="container py-4">
 
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <h1><b>Zaplanuj posiłek</b></h1>
+        <h1><b>Plan Your Meal</b></h1>
         <a href="{{ url_for('wyswietl_posilki') }}" class="btn btn-secondary" style="position: absolute; top: 15px; right: 15px">
-            Wróć
+            Back
         </a>
     </div>
 
@@ -105,26 +105,26 @@
         <div class="settings-card shadow-sm">
             <div class="row g-3 align-items-end">
                 <div class="col-md-3">
-                    <label class="form-label">Liczba osób:</label>
+                    <label class="form-label">Number of people:</label>
                     <input type="number" name="liczba_osob" class="form-control" min="1" value="1" required>
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">Data (opcjonalnie):</label>
+                    <label class="form-label">Date (optional):</label>
                     <input type="date" name="data_posilku" class="form-control">
                 </div>
                 <div class="col-md-5 text-end">
                     <button type="submit" class="btn btn-primary w-100 py-2">
-                        <b>ZAPLANUJ PRZEPIS!</b>
+                        <b>PLAN YOUR MEAL!</b>
                     </button>
                 </div>
             </div>
         </div>
 
         <div class="mb-4 d-flex align-items-center flex-wrap gap-2">
-            <strong style="color: var(--bs-primary) !important">Filtruj wg typu dania:</strong>
+            <strong style="color: var(--bs-primary) !important">Filter by meal type:</strong>
             <div class="btn-group shadow-sm">
                 <a href="{{ url_for('zaplanuj_posilek') }}" 
-                   class="btn btn-sm {{ 'btn-primary' if not wybrany_typ else 'btn-outline-primary' }}">Wszystkie</a>
+                   class="btn btn-sm {{ 'btn-primary' if not wybrany_typ else 'btn-outline-primary' }}">All</a>
                 {% for t in typy_dan %}
                     <a href="{{ url_for('zaplanuj_posilek', typ=t.nazwa) }}" 
                        class="btn btn-sm {{ 'btn-primary' if wybrany_typ == t.nazwa else 'btn-outline-primary' }}">
@@ -133,16 +133,16 @@
                 {% endfor %}
             </div>
         </div>
-        <p><small>Kliknij w nazwę dania, żeby zobaczyć składniki i sposób przygotowania!</small></p>
+        <p><small>Click on the name of the dish to see the ingredients and preparation method!</small></p>
 
         <div class="table-section shadow-sm">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th style="width: 45%;">Przepis</th>
-                        <th style="width: 20%; text-align: center;">Czas przygotowania</th>
-                        <th style="width: 20%; text-align: center;">kcal/osoba</th>
-                        <th style="width: 15%; text-align: center;">Wybór</th>
+                        <th style="width: 45%;">Recipe</th>
+                        <th style="width: 20%; text-align: center;">Preparation time</th>
+                        <th style="width: 20%; text-align: center;">kcal/person</th>
+                        <th style="width: 15%; text-align: center;">Choose</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -170,7 +170,7 @@
                                 <div class="recipe-content">
                                     <div class="row">
                                         <div class="col-md-5">
-                                            <h6 class="text-primary"><b>Składniki (na {{ item.liczba_porcji }} os.):</b></h6>
+                                            <h6 class="text-primary"><b>Ingredients (for {{ item.liczba_porcji }} people):</b></h6>
                                             <ul>
                                             {% for składnik in item.składniki %}
                                                 <li> {{ składnik.produkt.nazwa }}: {{ składnik.potrzebna_ilość | round | int }} {{ składnik.produkt.jednostka.nazwa }} </li>
@@ -178,7 +178,7 @@
                                             </ul>
                                         </div>
                                         <div class="col-md-7 border-start">
-                                            <h6 class="text-primary"><b>Sposób przygotowania:</b></h6>
+                                            <h6 class="text-primary"><b>Preparation method:</b></h6>
                                             <p style="white-space: pre-wrap;">{{ item.opis }}</p>
                                         </div>
                                     </div>

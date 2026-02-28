@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <title>Planer posiłków</title>
+    <title>Meal Planner</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -54,9 +54,9 @@
 <body class="container py-4">
 
     <div class="d-flex justify-content-between align-items-center mb-2">
-        <h1><b>Planer posiłków</b></h1>
+        <h1><b>Meal Planner</b></h1>
         <a href="{{ url_for('index') }}" class="btn btn-secondary" style="position: absolute; top: 15px; right: 15px">
-            Powrót do menu
+            Back to Menu
         </a>
     </div>
 
@@ -73,7 +73,7 @@
 
     <div class="mb-4 text-start">
         <a href="{{ url_for('zaplanuj_posilek') }}" class="btn btn-primary shadow-sm">
-            <b>Zaplanuj posiłek!</b>
+            <b>Plan your meal!</b>
         </a>
     </div>
 
@@ -81,11 +81,11 @@
         <table class="table table-hover text-center">
             <thead>
                 <tr>
-                    <th class="text-start">Przepis</th>
-                    <th>Liczba osób</th>
-                    <th>Data posiłku</th>
-                    <th>Ugotuj</th>
-                    <th>Usuń</th>
+                    <th class="text-start">Recipe</th>
+                    <th>Number of people</th>
+                    <th>Meal date</th>
+                    <th>Cook</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -97,7 +97,7 @@
                     <td class="align-middle">
                         <form action="{{ url_for('zmien_status_ugotowane', id_posilku=item.id_posiłku) }}" method="POST" class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-primary btn-sm px-3" style="font-weight: bold;">
-                                Ugotuj!
+                                Cook!
                             </button>
                         </form>
                     </td>

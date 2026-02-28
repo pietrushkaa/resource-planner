@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organizer Kuchenny</title>
+    <title>Kitchen Planner</title>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/minty/bootstrap.min.css">
     
@@ -37,32 +37,32 @@
 <body class="container py-4 d-flex flex-column align-items-center">
 
     <header class="text-center mb-4">
-        <h1><b>Planer kuchenny</b></h1>
-        <p style="color:var(--bs-secondary) !important; font-size:15px"><b>Zarządzaj zapasami i planuj posiłki!</b></p>
+        <h1><b>Kitchen Planner</b></h1>
+        <p style="color:var(--bs-secondary) !important; font-size:15px"><b>Manage your supplies and plan your meals!</b></p>
     </header>
         <main class="d-flex flex-column align-items-center">
             <a href="{{ url_for('wyswietl_spizarnie') }}" 
                 class="btn btn-primary d-flex flex-column align-items-center justify-content-center p-5 w-50 mb-3" style="max-height:90px; min-width:350px">
                 <h3 style="color: white !important; font-size:26px">
-                    &bull; Spiżarnia &bull;
+                    &bull; Pantry &bull;
                 </h3>
             </a>
             <a href="{{ url_for('wyswietl_przepisy') }}" 
                 class="btn btn-secondary d-flex flex-column align-items-center justify-content-center p-5 w-50 mb-3" style="max-height:90px; min-width:350px">
                 <h3 style="color: white !important; font-size:26px">
-                    &bull; Przepisy &bull;
+                    &bull; Recipes Book &bull;
                 </h3>
             </a>
             <a href="{{ url_for('wyswietl_zakupy') }}" 
                 class="btn btn-primary d-flex flex-column align-items-center justify-content-center p-5 w-50 mb-3" style="max-height:90px; min-width:350px">
                 <h3 style="color: white !important; font-size:26px">
-                    &bull; Lista zakupów &bull;
+                    &bull; Shopping List &bull;
                 </h3>
             </a>
             <a href="{{ url_for('wyswietl_posilki') }}" 
                 class="btn btn-secondary d-flex flex-column align-items-center justify-content-center p-5 w-50" style="max-height:90px; min-width:350px">
                 <h3 style="color: white !important; font-size:26px">
-                    &bull; Planer posiłków &bull;
+                    &bull; Meal Planner &bull;
                 </h3>
             </a>
         </main>
